@@ -1,0 +1,65 @@
+<nav class="navbar navbar-expand-md navbar-dark accent">
+    <a [routerLink]="['/menu-item-list']" class="navbar-brand">
+        <span class="material-icons align-middle">restaurant_menu</span>truYum
+    </a>
+    <button role="button" class="navbar-toggler" data-toggle="collapse" data-target="#mynav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mynav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a [routerLink]="['/menu-item-list']" class="nav-link text-light">Menu Items</a>
+            </li>
+            <li *ngIf="!user.isAdmin" class="nav-item"><a [routerLink]="['/cart']" class="nav-link text-light">Cart</a>
+            </li>
+            <li class="nav-item"><a class="nav-link text-light">
+                    <span class="material-icons align-middle">
+                        person
+                    </span>{{user.firstName}}</a></li>
+            <li class="nav-item"><a [routerLink]="['/sign-out']" class="nav-link text-light">Signout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row pt-2">
+        <div class="col-lg-6 col-md-12 ml-auto mr-auto">
+            <h3 class="font-weight-normal">Cart</h3>
+            <div class="alert alert-success" *ngIf="isDeleted" role="alert">
+                <p class="small">Item deleted successfully</p>
+            </div>
+            <div class="list-group" *ngIf="cart.length!=0 else empty">
+                <a *ngFor="let c of cart" id="itemOne"
+                    class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1 font-weight-normal text-secondary">{{c.foodItem.foodName}}</h6>
+                        <small class="text-danger">{{c.foodItem.price | number:'1.2-2'}}</small>
+                    </div>
+                    <div class="float-right">
+                        <!-- <button onclick="" class="border-0 bg-white"> -->
+                            <span (click)="clicked(c)" class="material-icons text-secondary md-20 delete">
+                                delete_forever
+                            </span>
+                        <!-- </button> -->
+                    </div>
+                </a>
+                <a id="item3" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Total</h5>
+                        <div id="result" class="text-danger">Rs. {{total | number:'1.2-2'}}</div>
+                    </div>
+                </a>
+            </div>
+            <ng-template #empty>
+            <div class="alert alert-danger" id="empty" role="alert">
+                <p class="small">No items in cart. Use 'Add-to-Cart' option in menu item list</p>
+            </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container-fluid accent text-light">
+        <p class="m-0">Copyright 2020</p>
+    </div>
+</footer>

@@ -1,0 +1,83 @@
+<div class="card mb-2 h-100">
+    <img [src]="item.imageURL" height="200" class="card-img-top">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-12 pr-0" style="overflow: hidden;">
+                <h6 style="float: left; font-size: large;" class="card-title font-weight-normal">{{item.foodName}}</h6>
+                <h6 style="float: right; font-size: large" class="text-danger">{{item.price | currency : 'INR'}}</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8 col-sm-8 pr-0">
+                <p> <span  *ngIf="isAdmin">
+                    <span *ngIf="item.isActive else nonactive" class="badge bg-success text-light mr-1">Active</span>
+                    <ng-template #nonactive>
+                        <span class="badge bg-danger text-light mr-1">Inactive</span>
+                    </ng-template>
+                </span>
+                <span class="text-secondary small">{{item.category}}</span>
+            </p>
+            </div>
+            <div class="col-4 col-sm-4 p-0">
+                <p *ngIf="item.isFreeDelivery" class="small text-right">
+                    <span class="material-icons align-middle md-20 text-blue mr-1">local_shipping</span>
+                    <span class="badge bg-primary text-light">FREE</span>
+                </p>
+            </div>
+        </div>
+        <div class="row" *ngIf="isItemAdded">
+            <div class="col-12">
+                <div class="alert alert-success" role="alert">
+                    <p class="small mb-0">Item added successfully</p>
+                  </div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="col-7 col-sm-7 pr-0">
+                    <div *ngIf="isAdmin">
+                        <p class=" text-secondary m-0">
+                            <span class="material-icons align-middle md-14">schedule</span>
+                            Launch
+                        </p>
+                        <p class="text-secondary">
+                            {{item.launchDate|date:'dd/MM/yyyy'}}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-5 col-sm-5 p-0 text-right">
+                    <div *ngIf="isAdmin else nonAdmin">
+                        <a [routerLink]="['/edit-menu-item',item.itemId]">
+                            <button class="btn btn-accent">
+                                <span class="material-icons align-middle md-20">edit</span>
+                                Edit
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            
+            <ng-template #nonAdmin>
+                <div class="col-5 col-sm-5 pr-0">
+                    
+                </div>
+                <div *ngIf="loggedInUser!=undefined else notAUser">
+                    <div class="col-7 col-sm-7 p-0 text-right">
+                        <button (click)="addToCart(item.itemId)" class="btn btn-accent">
+                            <span class="material-icons align-middle">add_shopping_cart</span>
+                            <span class="small">Add to Cart</span>
+                        </button>
+                    </div>
+                </div>
+                <ng-template #notAUser>
+                    <div class="col-7 col-sm-7 p-0 text-right">
+                        <a [routerLink]="['/login','carterror']">
+                            <button class="btn btn-accent">
+                                <span class="material-icons align-middle">add_shopping_cart</span>
+                                <span class="small">Add to Cart</span>
+                            </button>
+                        </a>
+                    </div>
+                </ng-template>
+            </ng-template>
+        </div>
+    </div>
+</div>
